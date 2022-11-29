@@ -24,13 +24,13 @@ namespace HomeWorkCollections4
                 switch (userMenuNavigate)
                 {
                     case CommandAddDosier:
-                        AddDosier(ref empoloyees);
+                        AddDosier(empoloyees);
                         break;
                     case CommandShowAllDosier:
                         ShowAllDosier(empoloyees);
                         break;
                     case CommandDeleteDosier:
-                        DeleteDosier(ref empoloyees);
+                        DeleteDosier(empoloyees);
                         break;
                     case CommandExit:
                         Console.Clear();
@@ -56,10 +56,13 @@ namespace HomeWorkCollections4
             Console.WriteLine("4 - Выход");
         }
 
-        static void AddDosier(ref Dictionary<string, string> employees)
+        static void AddDosier(Dictionary<string, string> employees)
         {
-            Console.WriteLine("Введите ФИО и должность: ");
-            employees.Add(Console.ReadLine(), Console.ReadLine());
+            Console.WriteLine("Введите ФИО: ");
+            string? fullName = Console.ReadLine();
+            Console.WriteLine("Введите должность: ");
+            string? position = Console.ReadLine();
+            employees.Add(fullName, position);
         }
 
         static void ShowAllDosier(Dictionary<string, string> employees)
@@ -73,10 +76,17 @@ namespace HomeWorkCollections4
             }
         }
 
-        static void DeleteDosier(ref Dictionary<string, string> employees)
+        static void DeleteDosier(Dictionary<string, string> employees)
         {
             Console.WriteLine("Введите ФИО, чье досье Вы хотите удалить: ");
-            employees.Remove(Console.ReadLine());
+            string? userChoice = Console.ReadLine();
+
+            if (employees.ContainsKey(userChoice))
+            {
+                employees.Remove(userChoice);
+                Console.WriteLine("Удалено");
+            }
+            else Console.WriteLine("Нет такого досье");
         }
     }
 }
