@@ -50,19 +50,27 @@ namespace HomeWorkCollections4
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Меню: ");
-            Console.WriteLine("1 - Добавить досье");
-            Console.WriteLine("2 - Вывести все досье");
-            Console.WriteLine("3 - Удалить досье");
-            Console.WriteLine("4 - Выход");
+            Console.WriteLine("-Добавить досье");
+            Console.WriteLine("-Вывести все досье");
+            Console.WriteLine("-Удалить досье");
+            Console.WriteLine("-Выход");
         }
 
         static void AddDosier(Dictionary<string, string> employees)
         {
             Console.WriteLine("Введите ФИО: ");
             string? fullName = Console.ReadLine();
-            Console.WriteLine("Введите должность: ");
-            string? position = Console.ReadLine();
-            employees.Add(fullName, position);
+            
+            if(employees.ContainsKey(fullName))
+            {
+                Console.WriteLine("Такое досье уже есть");
+            }
+            else
+            {
+                Console.WriteLine("Введите должность: ");
+                string? position = Console.ReadLine();
+                employees.Add(fullName, position);
+            }
         }
 
         static void ShowAllDosier(Dictionary<string, string> employees)
@@ -86,7 +94,10 @@ namespace HomeWorkCollections4
                 employees.Remove(userChoice);
                 Console.WriteLine("Удалено");
             }
-            else Console.WriteLine("Нет такого досье");
+            else
+            {
+                Console.WriteLine("Нет такого досье");
+            }    
         }
     }
 }
