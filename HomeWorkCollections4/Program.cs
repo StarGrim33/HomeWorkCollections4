@@ -6,63 +6,64 @@ namespace HomeWorkCollections4
     {
         static void Main(string[] args)
         {
+            const string CommandAddDosier = "1";
+            const string CommandShowAllDosiers = "2";
+            const string CommandDeleteDosier = "3";
+            const string CommandExit = "4";
+
             Dictionary<string, string> empoloyees = new();
             bool isProgrammOn = true;
-            const string CommandAddDosier = "Добавить досье";
-            const string CommandShowAllDosier = "Вывести все досье";
-            const string CommandDeleteDosier = "Удалить досье";
-            const string CommandExit = "Выход";
-
+            
             Console.SetCursorPosition(40, 0);
-            Console.WriteLine("Напишите нужную команду");
+            Console.ForegroundColor = ConsoleColor.Red;
 
             while (isProgrammOn)
             {
-                ShowMenu();
+                Console.WriteLine($"Меню: \n{CommandAddDosier}-Добавить досье\n{CommandShowAllDosiers}-Показать все досье\n{CommandDeleteDosier}-Удалить досье\n{CommandExit}-Выход");
+                Console.WriteLine("Напишите нужную команду: ");
                 string? userMenuNavigate = Console.ReadLine();
 
                 switch (userMenuNavigate)
                 {
                     case CommandAddDosier:
-                        AddDosier(ref empoloyees);
+                        AddDosier(empoloyees);
                         break;
-                    case CommandShowAllDosier:
-                        ShowAllDosier(empoloyees);
+                    case CommandShowAllDosiers:
+                        ShowAllDosiers(empoloyees);
                         break;
                     case CommandDeleteDosier:
-                        DeleteDosier(ref empoloyees);
+                        DeleteDosier(empoloyees);
                         break;
                     case CommandExit:
-                        Console.Clear();
-                        Console.SetCursorPosition(40, 5);
-                        Console.WriteLine("Работа программы завершена.");
                         isProgrammOn = false;
                         break;
                     default:
                         Console.WriteLine("Не введено релеватного значения. Попробуйте еще раз.");
                         break;
                 }
-
             }
         }
 
-        static void ShowMenu()
+        static void AddDosier(Dictionary<string, string> employees)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Меню: ");
-            Console.WriteLine("1 - Добавить досье");
-            Console.WriteLine("2 - Вывести все досье");
-            Console.WriteLine("3 - Удалить досье");
-            Console.WriteLine("4 - Выход");
+            Console.WriteLine("Введите ФИО: ");
+            string? fullName = Console.ReadLine();
+
+            if (employees.ContainsKey(fullName))
+            {
+                Console.WriteLine("Такое досье уже есть");
+            }
+            else
+            {
+                Console.WriteLine("Введите должность: ");
+                string? position = Console.ReadLine();
+                employees.Add(fullName, position);
+            }
+
+            Console.Clear();
         }
 
-        static void AddDosier(ref Dictionary<string, string> employees)
-        {
-            Console.WriteLine("Введите ФИО и должность: ");
-            employees.Add(Console.ReadLine(), Console.ReadLine());
-        }
-
-        static void ShowAllDosier(Dictionary<string, string> employees)
+        static void ShowAllDosiers(Dictionary<string, string> employees)
         {
             Console.Clear();
             Console.WriteLine("Имеющиеся досье: ");
@@ -72,11 +73,22 @@ namespace HomeWorkCollections4
                 Console.WriteLine(employee.Key + " - " + employee.Value);
             }
         }
-
-        static void DeleteDosier(ref Dictionary<string, string> employees)
+        
+        static void DeleteDosier(Dictionary<string, string> employees)
         {
             Console.WriteLine("Введите ФИО, чье досье Вы хотите удалить: ");
-            employees.Remove(Console.ReadLine());
+            string? userChoice = Console.ReadLine();
+
+            if (employees.ContainsKey(userChoice))
+            {
+                employees.Remove(userChoice);
+                Console.WriteLine("Удалено");
+            }
+            else
+            {
+                Console.WriteLine("Нет такого досье");
+            }
         }
+
     }
 }
